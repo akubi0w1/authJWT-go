@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"strings"
-	"time"
 
 	"auth-jwt/server"
 	"database/sql"
@@ -106,7 +105,7 @@ func Login(db *sql.DB) http.HandlerFunc {
 		log.Println("login success: userid = ", req.ID)
 
 		// tokenの発行
-		token, err := createToken(req.ID)
+		token, err := server.CreateToken(req.ID)
 		if err != nil {
 			server.ErrorResponse(w, http.StatusInternalServerError, err.Error())
 			return
@@ -137,7 +136,7 @@ func Logout(db *sql.DB) http.HandlerFunc {
 		tokenString = strings.TrimPrefix(tokenString, "Bearer ")
 
 		// tokenの認証
-		token, err := VerifyToken(tokenString)
+		token, err := server.VerifyToken(tokenString)
 		// token, err := verifyToken(r)
 		if err != nil {
 			server.ErrorResponse(w, http.StatusBadRequest, err.Error())
@@ -156,49 +155,3 @@ func Logout(db *sql.DB) http.HandlerFunc {
 type LogoutResponse struct {
 	Message string `json:"message"`
 }
-
-func createToken(userID string) (string, error) {
-	// TODO: tokenの作成
-	token := jwt.New(jwt.GetSigningMethod("HS256"))
-
-	// TODO: claimsの設定
-	token.Claims = jwt.MapClaims{
-		"user": userID,
-		"exp":  time.Now().Add(time.Hour * 1).Unix(),
-	}
-
-	// TODO: 署名
-	var secretKey = "secret"
-	tokenString, err := token.SignedString([]byte(secretKey))
-	if err != nil {
-		return "", err
-	}
-	return tokenString, nil
-
-}
-
-func VerifyToken(tokenString string) (*jwt.Token, error) {
-
-	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		return []byte("secret"), nil
-	})
-	if err != nil {
-		return token, err
-	}
-
-	// // TODO: 有効期限とかのチェックてしてくれんの？
-	// if !token.Valid {
-	// 	return token, fmt.Errorf("valid %s", "error")
-	// }
-
-	return token, nil
-
-}
-
-// func verifyToken(r *http.Request) (*jwt.Token, error) {
-// 	token, err := request.ParseFromRequest(r, request.OAuth2Extractor, func(token *jwt.Token) (interface{}, error) {
-// 		b := []byte("secret")
-// 		return b, nil
-// 	})
-// 	return token, err
-// }

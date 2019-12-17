@@ -21,7 +21,7 @@ func WhoAmI(db *sql.DB) http.HandlerFunc {
 		tokenString = strings.TrimPrefix(tokenString, "Bearer ")
 
 		// tokenの認証
-		token, err := VerifyToken(tokenString)
+		token, err := server.VerifyToken(tokenString)
 		// token, err := verifyToken(r)
 		if err != nil {
 			server.ErrorResponse(w, http.StatusBadRequest, err.Error())
