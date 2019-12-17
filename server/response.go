@@ -8,7 +8,7 @@ import (
 
 func Success(w http.ResponseWriter, data interface{}) {
 	jsonData, _ := json.Marshal(data)
-	// w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Content-Type", "application/json")
 	w.Write(jsonData)
 }
 
@@ -21,7 +21,7 @@ func ErrorResponse(w http.ResponseWriter, code int, message string) {
 		log.Fatal("json marshal error")
 	}
 	w.WriteHeader(code)
-	// w.Header().Set("Content-Type", "application/json")
+	w.Header().Add("Content-Type", "application/json")
 	w.Write(jsonData)
 }
 
