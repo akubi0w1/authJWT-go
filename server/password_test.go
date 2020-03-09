@@ -8,7 +8,7 @@ func TestPasswordEncrypt(t *testing.T) {
 	t.Run("password hash", func(t *testing.T) {
 		pw := "hogehoge"
 		hash, err := PasswordHash(pw)
-		if err != nil {
+		if err == nil {
 			t.Error("password hash error. err = ", err)
 			t.Errorf("row pass: %s, hash: %s", pw, hash)
 		}
