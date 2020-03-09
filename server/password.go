@@ -1,8 +1,15 @@
 package server
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"errors"
+
+	"golang.org/x/crypto/bcrypt"
+)
 
 func PasswordHash(pw string) (string, error) {
+	if len(pw) > 70 {
+		return "", errors.New("password is too long.")
+	}
 	hash, err := bcrypt.GenerateFromPassword([]byte(pw), bcrypt.DefaultCost)
 	if err != nil {
 		return "", err

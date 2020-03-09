@@ -23,7 +23,6 @@ func CreateToken(userID string) (string, error) {
 		return "", err
 	}
 	return tokenString, nil
-
 }
 
 func VerifyToken(tokenString string) (*jwt.Token, error) {
@@ -32,13 +31,8 @@ func VerifyToken(tokenString string) (*jwt.Token, error) {
 		return []byte("secret"), nil
 	})
 	if err != nil {
-		return token, err
+		return  nil, err
 	}
-
-	// // TODO: 有効期限とかのチェックてしてくれんの？
-	// if !token.Valid {
-	// 	return token, fmt.Errorf("valid %s", "error")
-	// }
 
 	return token, nil
 
