@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"auth-jwt/server"
+	"github.com/yawn-yawn-yawn/authJWT-go/server"
 	"database/sql"
 	"fmt"
 	"log"

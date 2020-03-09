@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"strings"
 
-	"auth-jwt/server"
 	"database/sql"
+	"github.com/yawn-yawn-yawn/authJWT-go/server"
 
 	jwt "github.com/dgrijalva/jwt-go"
 )

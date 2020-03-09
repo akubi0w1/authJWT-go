@@ -1,7 +1,7 @@
 package main
 
 import (
-	"auth-jwt/handler"
+	"github.com/yawn-yawn-yawn/authJWT-go/handler"
 	"log"
 	"net/http"
 
