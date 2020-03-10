@@ -1,13 +1,17 @@
 version: 2
+
 jobs:
-  build:
+  test:
     docker:
       - image: circleci/golang:1.12
     working_directory: /go/src/github.com/yawn-yawn-yawn/authJWT-go
-    # working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
     steps:
       - checkout
-
-      # - run: go get -v ./...
       - run: go get -v -t -d ./...
       - run: go test -v ./...
+
+workflows:
+  version: 2
+  workflows:
+      jobs:
+        - test
